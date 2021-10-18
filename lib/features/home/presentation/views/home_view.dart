@@ -30,12 +30,7 @@ class _HomeViewState extends State<HomeView> {
   var maskFormatter = new MaskTextInputFormatter(mask: '+7 (###) ###-##-##', filter: { "#": RegExp(r'[0-9]') });
   final formKey = GlobalKey<FormState>();
   TextEditingController _phoneController = TextEditingController();
-  List<String> urls = [
-    'https://img.championat.com/news/big/w/q/pochemu-sushi-vredny-dlja-figury_1590677088981164064.jpg',
-    'https://prod-wolt-venue-images-cdn.wolt.com/5fa3a9b626986719bf65c9b5/aab605dc-1f38-11eb-b162-4653267a34a6_8f089a56_09f4_11eb_8c3f_8ec8cf342bdd_whopper1_1200_800.jpg',
-    'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
-    'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg'
-  ];
+
 
 
   @override
@@ -49,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 15.h,),
-                HeadCarousel(urls: urls,),
+                HeadCarousel(urls: ['', '', ''],),
                 SizedBox(height: 15.h,),
                 Text(
                   'Категории',
@@ -68,20 +63,20 @@ class _HomeViewState extends State<HomeView> {
                         },
                         child: CategoryCard(
                           text: 'Бургеры',
-                          url: urls[1]
+                          url: ''
                         ),
                       ),
                       CategoryCard(
                         text: 'Пиццы',
-                        url: urls[2]
+                        url: ''
                       ),
                       CategoryCard(
                         text: 'Суши',
-                        url: urls.first
+                        url: ''
                       ),
                       CategoryCard(
                         text: 'Супы',
-                        url: urls.last
+                        url: ''
                       )
                     ],
                   ),
@@ -99,19 +94,19 @@ class _HomeViewState extends State<HomeView> {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     ProductCard(
-                      url: urls[2],
+                      url: '',
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                       },
                     ),
                     ProductCard(
-                      url: urls[0],
+                      url: '',
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                       },
                     ),
                     ProductCard(
-                      url: urls[1],
+                      url: '',
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                       },

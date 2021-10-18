@@ -12,6 +12,7 @@ import 'package:shopv1deliveryfood_mobile/features/auth/domain/entities/user_ent
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/repositories/login/login_repository.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/auth_signin.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_token_local.dart';
+import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/register.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/send_sms.dart';
 
 import '../../../../locator.dart';
@@ -109,6 +110,28 @@ class LoginRepositoryImpl implements LoginRepository {
       }
     } catch (e) {
       return Left(CacheFailure());
+    }
+  }
+
+
+
+  @override
+  Future<Either<Failure, bool>> register(RegisterParams params) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final isSended = await remoteDataSource.register(
+          phone: params.phoneNumber,
+          firstName: params.firstName,
+          lastName: params.lastName,
+          avatar: params.avatar!,
+          cityId: params.cityId
+        );
+        return Right(isSended);
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
+      }
+    } else {
+      return Left(NetworkFailure());
     }
   }
 }

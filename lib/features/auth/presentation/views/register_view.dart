@@ -25,6 +25,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController _cityController = TextEditingController();
 
   String errorMessageFirstName = 'Введите ваше имя';
+  String errorMessageLastName = 'Введите вашу фамилию';
   String errorMessageCity = 'Выберите город';
 
   CityModel? cityModel;
@@ -129,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 SizedBox(height: 12.h,),
                 TextInput(
-                  hintText: 'Ваш адрес *',
+                  hintText: 'Ваш город *',
                   isEnable: false,
                   validator: (val){
                     return cityModel != null ? null : errorMessageCity;
@@ -138,7 +139,7 @@ class _RegisterViewState extends State<RegisterView> {
                   controller: _cityController,
                   icon: Icons.location_on_outlined,
                   onTap: () async {
-                    CityModel city = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseCityView()));
+                    final city = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseCityView()));
                     if(city != null){
                       setState(() {
                         _cityController.text = city.name;

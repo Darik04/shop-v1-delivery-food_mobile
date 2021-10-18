@@ -30,7 +30,14 @@ class ProductCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5),),
-                  child: Image(
+                  child: url == null || url == ''
+                  ? Image(
+                    fit: BoxFit.cover,
+                    height: 170.h,
+                    width: MediaQuery.of(context).size.width,
+                    image: AssetImage('assets/images/user.png'),
+                  ) 
+                  : Image(
                     fit: BoxFit.cover,
                     height: 170.h,
                     width: MediaQuery.of(context).size.width,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
+import 'package:shopv1deliveryfood_mobile/features/additions/presentation/views/loading_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_user_info.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/views/register_view.dart';
@@ -38,6 +39,11 @@ class _SplashViewState extends State<SplashView> {
       },
       
       builder: (context, state) {
+        if(state is InternetConnectionFailed){
+          return Center(
+            child: Text('Проверьте ваше интернет соединение..'),
+          );
+        }
         if(state is LoginCodeSendedSuccessState){
           return EnterCodeView(phone: state.phone!,);
         }
@@ -47,7 +53,7 @@ class _SplashViewState extends State<SplashView> {
         if(state is RequiredRegisterState){
           return RegisterView();
         }
-        return SplashWidget();
+        return LoadingView();
       },
     );
   }

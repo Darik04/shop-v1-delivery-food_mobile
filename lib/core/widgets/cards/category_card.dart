@@ -30,7 +30,13 @@ class CategoryCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image(
+                child: url == null || url == '' 
+                ? Image(
+                  width: 70,
+                  height: 70,
+                  image: AssetImage('assets/images/user.png'),
+                  fit: BoxFit.cover,
+                ) : Image(
                   width: 70,
                   height: 70,
                   image: NetworkImage(url),

@@ -30,6 +30,8 @@ class LoginWithPhoneErrorState extends AuthState{
 class RequiredRegisterState extends AuthState{}
 class RequiredGetUserInfoState extends AuthState{}
 
+class InternetConnectionFailed extends AuthState{}
+
 class CheckedState extends AuthState{}
 class ErrorState extends AuthState{
   final String message;

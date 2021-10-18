@@ -41,7 +41,7 @@ class ProductsByCategoryView extends StatelessWidget {
 
 
               ProductCard(
-                url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                url: '',
                 onTap: (){},
               )
             ],

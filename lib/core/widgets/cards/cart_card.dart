@@ -19,7 +19,14 @@ class CartCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image(
+                child: true
+                ? Image(
+                  width: 104.w,
+                  height: 135.h,
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/user.png'),
+                )
+                : Image(
                   width: 104.w,
                   height: 135.h,
                   fit: BoxFit.cover,

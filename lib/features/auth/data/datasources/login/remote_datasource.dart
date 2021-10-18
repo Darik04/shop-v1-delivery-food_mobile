@@ -12,6 +12,7 @@ import '../../../../../locator.dart';
 
 abstract class AuthenticationRemoteDataSource {
   Future<String> sendSMS(String phone);
+  Future<bool> register({required String phone, required String firstName, required String lastName, File avatar, required int cityId});
 
   Future<TokenModel> authSignIn(String phone, String code);
   Future<UserModel> getUserInfo();
@@ -63,6 +64,34 @@ class AuthenticationRemoteDataSourceImpl
             headers: headers));
     if (response.statusCode == 200) {
       return TokenModel.fromJson(response.data);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  //Registration user - register user
+  @override
+  Future<bool> register({required String phone, required String firstName, required String lastName, File? avatar, required int cityId}) async {
+    headers = {
+      "Accept" : "application/json",
+      "Content-Type": "multipart/form-data"
+    };
+    var formData = FormData.fromMap({
+      "phone": phone, 
+      "first_name": firstName,
+      "last_name": lastName,
+      "city_id": cityId,
+      "avatar": avatar != null ? await MultipartFile.fromFile(avatar.path) : null,
+    });
+
+    Response response = await dio.post(Endpoints.register.getPath(),
+        data: formData,
+        options: Options(
+            followRedirects: false,
+            validateStatus: (status) => status! < 401,
+            headers: headers));
+    if (response.statusCode == 200) {
+      return true;
     } else {
       throw ServerException();
     }

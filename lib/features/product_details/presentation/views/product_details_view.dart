@@ -17,12 +17,6 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-  List<String> urls = [
-    'https://img.championat.com/news/big/w/q/pochemu-sushi-vredny-dlja-figury_1590677088981164064.jpg',
-    'https://prod-wolt-venue-images-cdn.wolt.com/5fa3a9b626986719bf65c9b5/aab605dc-1f38-11eb-b162-4653267a34a6_8f089a56_09f4_11eb_8c3f_8ec8cf342bdd_whopper1_1200_800.jpg',
-    'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
-    'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg'
-  ];
   int _currentSliderIndex = 1;
 
   @override
@@ -35,7 +29,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeadProductCarousel(urls: urls,),
+            HeadProductCarousel(urls: ['', '', ''],),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Column(
@@ -93,13 +87,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   Text('С этим также покупают', style: TextStyles.black_16_w700,),
                   SizedBox(height: 10.h,),
                   ProductCard(
-                    url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                    url: '',
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                     },
                   ),
                   ProductCard(
-                    url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                    url: '',
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                     },

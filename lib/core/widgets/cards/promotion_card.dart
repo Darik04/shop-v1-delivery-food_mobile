@@ -23,7 +23,14 @@ class PromotionCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image(
+            child: true
+            ? Image(
+              height: 140.h,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/user.png'),
+            )
+            : Image(
               height: 140.h,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,

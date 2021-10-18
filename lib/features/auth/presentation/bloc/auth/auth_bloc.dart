@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopv1deliveryfood_mobile/core/error/failures.dart';
@@ -53,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield sendedSMSOrFail.fold(
         (failure){
           if(failure == ConnectionFailure()){
-            return ErrorState(message: 'Проверьте интернет соединение');
+            return InternetConnectionFailed();
           }else{
             return ErrorState(message: 'Повторите попытку');
           }
@@ -69,7 +70,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print('SignInEvent in bloc');
       var authGetToken = await authSignIn(AuthSignParams(phoneNumber: event.phone, code: event.code));
       yield authGetToken.fold(
-        (failure) => ErrorState(message: 'Не смогли зайти'),
+        (failure) {
+          if(failure is ConnectionFailure)
+            return InternetConnectionFailed();
+          else
+            return ErrorState(message: 'Не смогли зайти');
+        },
         (TokenEntity tokenEntity) {
           sl<AuthConfig>().phone = event.phone;
           sl<AuthConfig>().token = tokenEntity.token;
@@ -89,7 +95,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print('Get user info in bloc');
       var gotUserInfo = await getUserInfo(NoParams());
       yield gotUserInfo.fold(
-        (failure) => ErrorState(message: 'Не смогли получить пользователя'),
+        (failure) {
+          if(failure is ConnectionFailure)
+            return InternetConnectionFailed();
+          else
+            return ErrorState(message: 'Не смогли получить пользователя');
+        },
         (userEntity) {
           if(userEntity.firstName == 'unauthorized' && userEntity.city == null){
             print('Token error logout');

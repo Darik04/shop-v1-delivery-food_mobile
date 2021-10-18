@@ -21,25 +21,25 @@ class FavoritesView extends StatelessWidget {
               SizedBox(height: 15.h,),
 
               ProductCard(
-                url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                url: '',
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                 },
               ),
               ProductCard(
-                url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                url: '',
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                 },
               ),
               ProductCard(
-                url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                url: '',
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                 },
               ),
               ProductCard(
-                url: 'https://s1.eda.ru/StaticContent/Photos/120131085053/171027192707/p_O.jpg',
+                url: '',
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
                 },

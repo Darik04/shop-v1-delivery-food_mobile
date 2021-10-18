@@ -28,6 +28,8 @@ class CityBloc extends Bloc<CityEvent, CityState> {
 
 
     if(event is GetAllCitiesEvent){
+      yield LoadingState();
+      
       var gotAllCities = await getAllCities(NoParams());
       yield gotAllCities.fold(
         (failure){

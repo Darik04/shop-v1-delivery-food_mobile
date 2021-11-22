@@ -22,7 +22,7 @@ class LeftBarModuleItem extends StatelessWidget {
             Row(
               children: [
                 icon == null
-                ? Text(iconText!, style: TextStyles.grey_18_w700,)
+                ? Text(iconText!, style: TextStyles.grey_18_w700.copyWith(fontSize: 18),)
                 : Icon(
                   icon,
                   size: 26,

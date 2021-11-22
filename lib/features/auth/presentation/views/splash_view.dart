@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
+import 'package:shopv1deliveryfood_mobile/core/utils/helpers/phone_number_helper.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
 import 'package:shopv1deliveryfood_mobile/features/additions/presentation/views/loading_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_user_info.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
@@ -25,6 +31,13 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     context.read<AuthBloc>().add(CheckUserLoggedEvent());
   }
+
+  var maskFormatter = MaskTextInputFormatter(mask: '+7 (###) ###-##-##', filter: { "#": RegExp(r'[0-9]') });
+  final formKey = GlobalKey<FormState>();
+  TextEditingController _phoneController = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -32,9 +45,16 @@ class _SplashViewState extends State<SplashView> {
         if(state is RequiredGetUserInfoState || state is LoginWithPhoneSuccessState){
           context.read<AuthBloc>().add(GetUserInfoEvent());
         }
+        if(state is RequiredCheckState){
+          context.read<AuthBloc>().add(CheckUserLoggedEvent());
+        }
 
         if(state is ErrorState){
           showAlertToast(state.message);
+        }
+
+        if(state is OpenAuthFormState){
+          _showSourceTypeModal(context: context);
         }
       },
       
@@ -47,13 +67,98 @@ class _SplashViewState extends State<SplashView> {
         if(state is LoginCodeSendedSuccessState){
           return EnterCodeView(phone: state.phone!,);
         }
-        if(state is CheckedState){
+        if(state is CheckedState || state is OpenAuthFormState || state is BlankState){
           return MainView();
         }
         if(state is RequiredRegisterState){
           return RegisterView();
         }
         return LoadingView();
+      },
+    );
+  }
+
+  //Modal for login
+  _showSourceTypeModal({
+    required BuildContext context,
+  }) {
+
+
+    Widget modalSheet = Container(
+      color: Colors.transparent,
+      child: Container(
+        height: MediaQuery.of(context).size.height*0.66,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          )
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              SizedBox(height: 100.h),
+              
+              Text('Введите ваш номер телефона', style: TextStyles.black_18_w700,),
+              SizedBox(height: 14.h),
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  validator: (val){
+                    return val!.length > 17 ? null : 'Введите номер телефона';
+                  },
+                  inputFormatters: [maskFormatter],
+                  controller: _phoneController,
+                  textCapitalization: TextCapitalization.sentences,
+                  decoration: InputDecoration(
+                    hintText: 'Номер',
+                    isDense: true,
+             
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: ColorStyles.main_grey),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 22.h),
+              PrimaryBtn(
+                text: 'Авторизоваться', 
+                onTap: (){
+                  if(formKey.currentState!.validate()){
+                    String phone = getConvertedNumber(_phoneController.text);
+                    print('Formatted phone is: $phone');
+                    context.read<AuthBloc>().add(SendSMSEvent(phone: phone));
+                    Navigator.pop(context);
+                  }
+                }
+              )
+            ],
+          ),
+        )
+      ),
+    );
+
+
+  
+
+
+
+    // show the dialog
+    showMaterialModalBottomSheet(
+      elevation: 6,
+      duration: Duration(milliseconds: 300),
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        )
+      ),
+      builder: (BuildContext context) {
+        return modalSheet;
       },
     );
   }

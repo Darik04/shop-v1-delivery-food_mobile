@@ -40,10 +40,10 @@ class ProductsByCategoryView extends StatelessWidget {
               ),
 
 
-              ProductCard(
-                url: '',
-                onTap: (){},
-              )
+              // ProductCard(
+              //   url: '',
+              //   onTap: (){},
+              // )
             ],
           ),
         ),

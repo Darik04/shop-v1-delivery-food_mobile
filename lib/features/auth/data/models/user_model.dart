@@ -46,20 +46,20 @@ class UserModel extends UserEntity{
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json['id'],
-    firstName: json['username'],
-    lastName: json['last_name'],
+    firstName: json['username'] == null ? '' : json['username'],
+    lastName: json['last_name'] == null ? '' : json['last_name'],
     phone: json['phone'],
     registered: json['registered'],
-    avatar: json['avatar'] == false ? null : json['avatar'],
+    avatar: json['avatar'] == null ? '' : json['avatar'],
 
 
     city: json['city'] != null ? CityModel.fromJson(json['city']) : null,
-    street: json['street'],
-    homeNumber: json['home_number'],
-    entrance: json['entrance'],
-    apartment: json['apartment'],
-    lat: json['lat'],
-    long: json['long'],
+    street: json['street'] == null ? '' : json['street'],
+    homeNumber: json['home_number'] == null ? '' : json['home_number'],
+    entrance: json['entrance'] == null ? '' : json['entrance'],
+    apartment: json['apartment'] == null ? '' : json['apartment'],
+    lat: json['lat'] == null ? null : json['lat'],
+    long: json['long'] == null ? null : json['long'],
 
 
     createdAt: DateTime.parse(json['created_at']),

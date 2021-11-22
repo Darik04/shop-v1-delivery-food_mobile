@@ -7,8 +7,21 @@ import 'package:shopv1deliveryfood_mobile/core/widgets/btns/product_to_cart_mini
 
 class ProductCard extends StatelessWidget {
   final String url;
+  final String title;
+  final String description;
+  final String firstArgument;
+  final String secondArgument;
+  final int price;
   final Function() onTap;
-  const ProductCard({Key? key, required this.url, required this.onTap}) : super(key: key);
+  const ProductCard({
+    required this.url,
+    required this.onTap, 
+    required this.price,
+    required this.title,
+    required this.description,
+    required this.firstArgument,
+    required this.secondArgument,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +79,15 @@ class ProductCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Пицца пеперони', style: TextStyles.black_16_w700),
-                      Text('30 см / 556 г', style: TextStyles.grey_12_w700),
+                      Text(title, style: TextStyles.black_16_w700),
+                      Text('$firstArgument / $secondArgument', style: TextStyles.grey_12_w700),
 
                     ],
                   ),
                   SizedBox(height: 3.h,),
                   Container(
                     width: MediaQuery.of(context).size.width/2,
-                    child: Text('Помидоры, салаты, сыр плавленный и особый соус', style: TextStyles.black_14_w400,),
+                    child: Text(description, style: TextStyles.black_14_w400,),
                   ),
                   SizedBox(height: 6.h,),
 
@@ -85,7 +98,7 @@ class ProductCard extends StatelessWidget {
                         text: 'test',
                         onTap: (){},
                       ),
-                      Text('2500 ₸', style: TextStyles.green_18_w700),
+                      Text('$price ₸', style: TextStyles.green_18_w700),
 
                     ],
                   )

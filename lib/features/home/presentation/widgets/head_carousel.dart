@@ -48,7 +48,7 @@ class _HeadCarouselState extends State<HeadCarousel> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     
-                    child: true
+                    child: i == null || i == ''
                     ? Image(
                       image: AssetImage('assets/images/user.png'),
                       fit: BoxFit.cover,

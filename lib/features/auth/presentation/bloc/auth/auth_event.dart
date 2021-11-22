@@ -10,6 +10,8 @@ class LogoutEvent extends AuthEvent {}
 class CheckUserLoggedEvent extends AuthEvent {}
 class GetUserInfoEvent extends AuthEvent {}
 
+class OpenAuthFormEvent extends AuthEvent {}
+
 
 class SendSMSEvent extends AuthEvent {
   final String phone;

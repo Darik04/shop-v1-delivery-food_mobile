@@ -86,18 +86,18 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   SizedBox(height: 20.h,),
                   Text('С этим также покупают', style: TextStyles.black_16_w700,),
                   SizedBox(height: 10.h,),
-                  ProductCard(
-                    url: '',
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                    },
-                  ),
-                  ProductCard(
-                    url: '',
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                    },
-                  ),
+                  // ProductCard(
+                  //   url: '',
+                  //   onTap: (){
+                  //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+                  //   },
+                  // ),
+                  // ProductCard(
+                  //   url: '',
+                  //   onTap: (){
+                  //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+                  //   },
+                  // ),
                 ],
               ),
             )

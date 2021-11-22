@@ -1,74 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 
 class TextStyles {
 
   // BY MODULES
-  static const TextStyle title_app_bar = TextStyle(
+  static TextStyle title_app_bar = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 22,
+      fontSize: 22.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
 
-  static const TextStyle cart_empty_text = TextStyle(
+  static TextStyle cart_empty_text = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 22,
+      fontSize: 22.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
 
 
   // BLACK
-  static const TextStyle black_28_w700 = TextStyle(
+  static  TextStyle black_28_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 28,
+      fontSize: 28.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
   
-  static const TextStyle black_26_w500 = TextStyle(
+  static  TextStyle black_26_w500 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 26,
+      fontSize: 26.sp,
       fontWeight: FontWeight.w500,
       color: Colors.black);
 
 
-  static const TextStyle black_18_w700 = TextStyle(
+  static  TextStyle black_18_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
   
-  static const TextStyle black_18_w400 = TextStyle(
+  static  TextStyle black_18_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w400,
       color: Colors.black);
 
       
-  static const TextStyle black_16_w700 = TextStyle(
+  static  TextStyle black_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
   
 
-  static const TextStyle black_14_w400 = TextStyle(
+  static  TextStyle black_14_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: Colors.black);
   
-  static const TextStyle black_12_w700 = TextStyle(
+  static  TextStyle black_12_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 11,
+      fontSize: 12.sp,
       fontWeight: FontWeight.w700,
       color: Colors.black);
   
@@ -77,44 +78,44 @@ class TextStyles {
 
 
   // GREY
-  static const TextStyle grey_18_w700 = TextStyle(
+  static  TextStyle grey_18_w700 = TextStyle(
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.main_grey);
 
-  static const TextStyle grey_16_w400 = TextStyle(
+  static  TextStyle grey_16_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
       color: ColorStyles.main_grey);
 
-  static const TextStyle grey_16_w700 = TextStyle(
+  static  TextStyle grey_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.main_grey);
 
-  static const TextStyle grey_14_w400 = TextStyle(
+  static  TextStyle grey_14_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: ColorStyles.main_grey);
 
-  static const TextStyle grey_12_w700 = TextStyle(
+  static  TextStyle grey_12_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 11,
+      fontSize: 12.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.main_grey);
   
-  static const TextStyle grey_12_w400 = TextStyle(
+  static  TextStyle grey_12_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 11,
+      fontSize: 12.sp,
       fontWeight: FontWeight.w400,
       color: ColorStyles.main_grey);
 
@@ -122,107 +123,107 @@ class TextStyles {
 
 
   // WHITE
-  static const TextStyle white_18_w700 = TextStyle(
+  static  TextStyle white_18_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: Colors.white);
 
-  static const TextStyle white_16_w700 = TextStyle(
+  static  TextStyle white_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: Colors.white);
   
-  static const TextStyle white_16_w400 = TextStyle(
+  static  TextStyle white_16_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w400,
       color: Colors.white);
 
-  static const TextStyle white_14_w400 = TextStyle(
+  static  TextStyle white_14_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: Colors.white);
 
   
   // RED
-  static const TextStyle red_18_w700 = TextStyle(
+  static  TextStyle red_18_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: Colors.white);
 
-  static const TextStyle red_16_w700 = TextStyle(
+  static  TextStyle red_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: Colors.white);
 
-  static const TextStyle red_14_w400 = TextStyle(
+  static  TextStyle red_14_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: Colors.white);
 
   
 
   // PRIMARAY
-  static const TextStyle primary_30_w700 = TextStyle(
+  static  TextStyle primary_30_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 30,
+      fontSize: 30.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.primary);
 
-  static const TextStyle primary_18_w700 = TextStyle(
+  static  TextStyle primary_18_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.primary);
 
-  static const TextStyle primary_16_w700 = TextStyle(
+  static  TextStyle primary_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.primary);
 
-  static const TextStyle primary_14_w400 = TextStyle(
+  static  TextStyle primary_14_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: ColorStyles.primary);
 
 
   
   // GREEN
-  static const TextStyle green_18_w700 = TextStyle(
+  static  TextStyle green_18_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 18,
+      fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.green_accent);
-  static const TextStyle green_16_w700 = TextStyle(
+  static  TextStyle green_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 16,
+      fontSize: 16.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.green_accent);
-  static const TextStyle green_14_w700 = TextStyle(
+  static  TextStyle green_14_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
-      fontSize: 14,
+      fontSize: 14.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.green_accent);
 }

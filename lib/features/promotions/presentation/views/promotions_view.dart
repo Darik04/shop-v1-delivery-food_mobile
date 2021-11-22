@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
-import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/cards/promotion_card.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/loaders/loader_v1.dart';
+import 'package:shopv1deliveryfood_mobile/features/promotions/presentation/bloc/promotions/promotions_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/promotions/presentation/views/promotion_details_view.dart';
 
 
@@ -12,28 +13,36 @@ class PromotionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-
-            children: [
-              SizedBox(height: 15.h,),
-
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PromotionDetailsView()));
-                },
-                child: PromotionCard()
+      body: BlocConsumer<PromotionsBloc, PromotionsState>(
+        listener: (context, state){},
+        builder: (context, state){
+          if(state is PromotionsInitialState || state is PromotionsLoadingState){
+            return LoaderV1();
+          }
+          if(state is GotSuccessPromotionsState){
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: state.promotions.length,
+                  itemBuilder: (BuildContext context, int i){
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PromotionDetailsView(promotion: state.promotions[i])));
+                      },
+                      child: PromotionCard(promotion: state.promotions[i],)
+                    );
+                  },
+                )
               ),
-              PromotionCard(),
-              SizedBox(height: 10.h,),
-              
-            ],
-          ),
-        ),
+            );
+          }
+          return Container();
+        },
       )
+      
     );
   }
 }

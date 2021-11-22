@@ -4,10 +4,12 @@ import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_mini_btn.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/cards/promotion_card.dart';
+import 'package:shopv1deliveryfood_mobile/features/promotions/domain/entities/promotion_entity.dart';
 
 
 class PromotionDetailsView extends StatelessWidget {
-  const PromotionDetailsView({Key? key}) : super(key: key);
+  final PromotionEntity promotion;
+  const PromotionDetailsView({Key? key, required this.promotion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +29,26 @@ class PromotionDetailsView extends StatelessWidget {
 
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image(
+                child: promotion.image == null
+                ? Image(
                   height: 160.h,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
-                  image: NetworkImage('https://world-sewing-machines.ru/image/cache/catalog/demo/sales/birthday-867x433.jpg'),
+                  image: AssetImage('assets/images/user.png')
+                )
+                : Image(
+                  height: 160.h,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(promotion.image!)
                 ),
               ),  
 
               SizedBox(height: 15.h,),
 
-              Text('Получи скидку в честь дня рождения', style: TextStyles.black_16_w700),
+              Text(promotion.title, style: TextStyles.black_16_w700),
               SizedBox(height: 10.h,),
-              Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley', style: TextStyles.black_14_w400),
+              Text(promotion.description, style: TextStyles.black_14_w400),
               SizedBox(height: 25.h,),
 
               Text('Промокод:', style: TextStyles.black_16_w700),
@@ -48,7 +57,7 @@ class PromotionDetailsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PrimaryMiniBtn(
-                    text: 'x38Jddq',
+                    text: promotion.promoCode!,
                     onTap: (){
 
                     },

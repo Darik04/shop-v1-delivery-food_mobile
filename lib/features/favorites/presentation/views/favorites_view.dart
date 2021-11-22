@@ -20,30 +20,30 @@ class FavoritesView extends StatelessWidget {
             children: [
               SizedBox(height: 15.h,),
 
-              ProductCard(
-                url: '',
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                },
-              ),
-              ProductCard(
-                url: '',
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                },
-              ),
-              ProductCard(
-                url: '',
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                },
-              ),
-              ProductCard(
-                url: '',
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
-                },
-              ),
+              // ProductCard(
+              //   url: '',
+              //   onTap: (){
+              //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+              //   },
+              // ),
+              // ProductCard(
+              //   url: '',
+              //   onTap: (){
+              //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+              //   },
+              // ),
+              // ProductCard(
+              //   url: '',
+              //   onTap: (){
+              //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+              //   },
+              // ),
+              // ProductCard(
+              //   url: '',
+              //   onTap: (){
+              //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+              //   },
+              // ),
               SizedBox(height: 10.h,),
               
             ],

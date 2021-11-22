@@ -7,9 +7,9 @@ import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 void showAlertToast(String msg) {
   Fluttertoast.showToast(
       msg: '$msg',
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.TOP,
       backgroundColor: ColorStyles.red_failure,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_LONG,
-      fontSize: 16);
+      fontSize: 16,);
 }

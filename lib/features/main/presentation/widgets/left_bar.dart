@@ -29,7 +29,7 @@ class LeftBar extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  isAuth && user!.avatar != null 
+                  isAuth && user!.avatar != null && user!.avatar != ''
                   ? CircleAvatar(
                     radius: 24,
                     backgroundImage: NetworkImage(Config.url.urlWithoutApi+user!.avatar)
@@ -113,12 +113,12 @@ class LeftBar extends StatelessWidget {
                   children: [
                     LeftBarModuleHeader(text: 'Контакты'),
                     SizedBox(height: 20.h,),
-                    LeftBarModuleItem(
-                      iconText: 'VK',
-                      text: 'Мы в VK',
-                      onTap: (){
-                      },
-                    ),
+                    // LeftBarModuleItem(
+                    //   iconText: 'VK',
+                    //   text: 'Мы в VK',
+                    //   onTap: (){
+                    //   },
+                    // ),
                     LeftBarModuleItem(
                       icon: Icons.photo_camera_outlined,
                       text: 'Мы в Instagram',

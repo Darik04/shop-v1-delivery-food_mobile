@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/src/provider.dart';
 import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
+import 'package:shopv1deliveryfood_mobile/core/services/database/auth_params.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/modals/success_reusable_modal.dart';
 import 'package:shopv1deliveryfood_mobile/features/additions/presentation/views/loading_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/additions/presentation/views/loading_with_header_view.dart';
+import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/cart/presentation/views/cart_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/favorites/presentation/views/favorites_view.dart';
+import 'package:shopv1deliveryfood_mobile/features/home/presentation/bloc/home/home_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/home/presentation/views/home_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/main/presentation/widgets/left_bar.dart';
 import 'package:shopv1deliveryfood_mobile/features/main/presentation/widgets/left_bar_module_header.dart';
 import 'package:shopv1deliveryfood_mobile/features/main/presentation/widgets/left_bar_module_item.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/views/profile_view.dart';
+import 'package:shopv1deliveryfood_mobile/features/promotions/presentation/bloc/promotions/promotions_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/promotions/presentation/views/promotions_view.dart';
+
+import '../../../../locator.dart';
 
 
 class MainView extends StatefulWidget {
@@ -30,12 +37,20 @@ class _MainViewState extends State<MainView> {
     // Profile will be navigate to view(screen)
   ];
   int _currentView = 0;
-  double _iconSize = 24;
+  double _iconSize = 26.sp;
   double _heightBtns = 46.h;
 
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<HomeBloc>().add(GetHomeProductsWithPaginationEvent());
+    context.read<PromotionsBloc>().add(GetPromotionsWithPaginationEvent());
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +75,7 @@ class _MainViewState extends State<MainView> {
               },
               child: Icon(
                 Icons.menu_outlined,
-                size: 40,
+                size: 40.sp,
               ),
             ),
           ],
@@ -74,7 +89,12 @@ class _MainViewState extends State<MainView> {
         currentIndex: _currentView,
         onTap: (int index){
           if(index >= _mainViews.length){
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfileView()));
+            if(sl<AuthConfig>().authenticatedOption == AuthenticatedOption.authenticated){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfileView()));
+
+            }else{
+              context.read<AuthBloc>().add(OpenAuthFormEvent());
+            }
           }else{
             setState(() {
               _currentView = index;
@@ -123,7 +143,7 @@ class _MainViewState extends State<MainView> {
                   Icon(
                     Icons.bookmark_border_outlined,
                     color: _currentView == 2 ? ColorStyles.black : ColorStyles.main_grey,
-                    size: _iconSize + 1,
+                    size: _iconSize + 1.sp,
                   ),
                   Text('Избранное', style: _currentView == 2 ? TextStyles.black_12_w700 : TextStyles.black_12_w700.copyWith(color: ColorStyles.main_grey))
                 ],

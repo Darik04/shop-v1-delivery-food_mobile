@@ -11,6 +11,7 @@ import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/auth_sig
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_token_local.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_user_info.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/logout.dart';
+import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/register.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/send_sms.dart';
 
 import '../../../../../locator.dart';
@@ -23,9 +24,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthSignIn authSignIn;
   final GetUserInfo getUserInfo;
   final GetTokenLocal getTokenLocal;
+  final Register register;
   final Logout logout;
   
-  AuthBloc(this.sendSMS, this.authSignIn,  this.getUserInfo,  this.getTokenLocal, this.logout) : super(InitialState());
+  AuthBloc(this.sendSMS, this.authSignIn,  this.getUserInfo,  this.getTokenLocal, this.logout, this.register) : super(InitialState());
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async*{
@@ -41,6 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             print('required get user info');
             return RequiredGetUserInfoState();
           }else{
+            print('USER IS NOT LOGGED');
             sl<AuthConfig>().token = null;
             return CheckedState();
           }
@@ -53,6 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       var sendedSMSOrFail = await sendSMS(PhoneParams(phoneNumber: event.phone));
       yield sendedSMSOrFail.fold(
         (failure){
+          print('FAIL: ${failure}');
           if(failure == ConnectionFailure()){
             return InternetConnectionFailed();
           }else{
@@ -60,6 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         },
         (isSuccess){
+          print('SUCCESS: ${isSuccess}');
           return LoginCodeSendedSuccessState(code: isSuccess, phone: event.phone);
         }
       );
@@ -96,6 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       var gotUserInfo = await getUserInfo(NoParams());
       yield gotUserInfo.fold(
         (failure) {
+          print('FAILURE: ${failure}');
           if(failure is ConnectionFailure)
             return InternetConnectionFailed();
           else
@@ -126,9 +132,71 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       
     }
 
-    
+
+    if(event is OpenAuthFormEvent){
+      yield BlankState();
+      yield OpenAuthFormState();
+    }
+
+    if(event is RegisterEvent){
+      print('RegisterEvent in bloc');
+      var registerResult = await register(RegisterParams(
+        cityId: event.cityId, 
+        phoneNumber: event.phone, 
+        lastName: event.lastName, 
+        firstName: event.firstName,
+        avatar: event.avatar
+      ));
+      yield registerResult.fold(
+        (failure) {
+          if(failure is ConnectionFailure)
+            return InternetConnectionFailed();
+          else
+            return ErrorState(message: 'Не смогли зарегестрировать');
+        },
+        (bool isRegister) {
+          if(isRegister){
+            return RequiredGetUserInfoState();
+          }else{
+            return ErrorState(message: 'Не смогли зарегестрировать');
+          }
+        }
+        
+      );
+      
+    }
 
 
+
+
+
+
+
+
+    if(event is LogoutEvent){
+      print('LogoutEvent in bloc');
+      var logoutResult = await logout(NoParams());
+      yield logoutResult.fold(
+        (failure) {
+          if(failure is ConnectionFailure)
+            return InternetConnectionFailed();
+          else
+            return ErrorState(message: 'Не смогли выйти');
+        },
+        (bool isExited) {
+          if(isExited){
+            sl<AuthConfig>().phone = null;
+            sl<AuthConfig>().userEntity = null;
+            sl<AuthConfig>().authenticatedOption = AuthenticatedOption.unauthenticated;
+            return RequiredCheckState();
+          }else{
+            return ErrorState(message: 'Не смогли выйти');
+          }
+        }
+        
+      );
+      
+    }
     
   }
 

@@ -75,6 +75,7 @@ class LoginRepositoryImpl implements LoginRepository {
         var userModel = await remoteDataSource.getUserInfo();
         return Right(userModel);
       } catch (e) {
+        print(e);
         return Left(ServerFailure(e.toString()));
       }
     } else {
@@ -123,11 +124,12 @@ class LoginRepositoryImpl implements LoginRepository {
           phone: params.phoneNumber,
           firstName: params.firstName,
           lastName: params.lastName,
-          avatar: params.avatar!,
+          avatar: params.avatar,
           cityId: params.cityId
         );
         return Right(isSended);
       } catch (e) {
+        print(e);
         return Left(ServerFailure(e.toString()));
       }
     } else {

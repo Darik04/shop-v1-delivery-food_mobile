@@ -16,12 +16,12 @@ class TextInput extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: TextFormField(
-        enableSuggestions: true,
-        enableInteractiveSelection: true,
+        onTap: onTap,
+        // enableInteractiveSelection: false,
+        readOnly: !isEnable,
         validator: validator,
         controller: controller,
         textCapitalization: TextCapitalization.sentences,
-        enabled: isEnable,             
         decoration: InputDecoration(
           // key: for_V2
           // hintText: hintText,

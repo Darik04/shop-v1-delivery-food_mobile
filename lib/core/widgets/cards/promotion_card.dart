@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
+import 'package:shopv1deliveryfood_mobile/features/promotions/domain/entities/promotion_entity.dart';
 
 
 class PromotionCard extends StatelessWidget {
-  const PromotionCard({Key? key}) : super(key: key);
+  final PromotionEntity promotion;
+  const PromotionCard({Key? key, required this.promotion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class PromotionCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: true
+            child: promotion.image == null
             ? Image(
               height: 140.h,
               width: MediaQuery.of(context).size.width,
@@ -34,12 +36,12 @@ class PromotionCard extends StatelessWidget {
               height: 140.h,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
-              image: NetworkImage('https://world-sewing-machines.ru/image/cache/catalog/demo/sales/birthday-867x433.jpg'),
+              image: NetworkImage(promotion.image!),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-            child: Text('Получи скидку в честь дня рождения', style: TextStyles.black_16_w700,),
+            child: Text(promotion.title, style: TextStyles.black_16_w700,),
           ),
           
         ],

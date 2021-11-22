@@ -5,7 +5,7 @@ import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/loaders/loader_v1.dart';
-import 'package:shopv1deliveryfood_mobile/features/address/presentation/bloc/city_bloc.dart';
+import 'package:shopv1deliveryfood_mobile/features/address/presentation/bloc/city/city_bloc.dart';
 
 class ChooseCityView extends StatefulWidget {
 

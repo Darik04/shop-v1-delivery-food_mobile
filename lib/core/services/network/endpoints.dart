@@ -11,6 +11,19 @@ enum Endpoints {
   //Cities
   getCities,
 
+  //Home
+  getHomeProducts,
+  getCategories,
+
+  getPromotions,
+
+
+  //Profile
+  updateUserInfo,
+  sendCodeToUpdatePhone,
+  updatePhone
+
+
 }
 
 extension EndpointsExtension on Endpoints {
@@ -28,7 +41,19 @@ extension EndpointsExtension on Endpoints {
       case Endpoints.getUserInfo:
         return "$url/get-user-info/";
       case Endpoints.getCities:
-        return "$url/get-cities";
+        return "$url/get-cities/";
+      case Endpoints.getHomeProducts:
+        return "$url/all-products/?page=${params![0]}";
+      case Endpoints.getCategories:
+        return "$url/categories/?limit=56";
+      case Endpoints.getPromotions:
+        return "$url/promotions/?page=${params![0]}";
+      case Endpoints.updateUserInfo:
+        return "$url/user-update/";
+      case Endpoints.sendCodeToUpdatePhone:
+        return "$url/send-code-for-update-phone/";
+      case Endpoints.updatePhone:
+        return "$url/phone-update/";
       default:
         return '';
     }

@@ -5,12 +5,16 @@ import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/locator.dart';
 
-import 'features/address/presentation/bloc/city_bloc.dart';
+import 'features/address/presentation/bloc/city/city_bloc.dart';
 import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/auth/presentation/views/splash_view.dart';
+import 'features/home/presentation/bloc/home/home_bloc.dart';
+import 'features/profile/presentation/bloc/change_number/change_number_bloc.dart';
+import 'features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'features/promotions/presentation/bloc/promotions/promotions_bloc.dart';
 
 
-void main() async {
+void main() {
   setupInjections();
   runApp(MyApp());
 }
@@ -26,6 +30,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => sl<AuthBloc>()),
           BlocProvider(create: (_) => sl<CityBloc>()),
+          BlocProvider(create: (_) => sl<HomeBloc>()),
+          BlocProvider(create: (_) => sl<PromotionsBloc>()),
+          BlocProvider(create: (_) => sl<ProfileBloc>()),
+          BlocProvider(create: (_) => sl<ChangeNumberBloc>()),
         
         ], 
         child: MaterialApp(

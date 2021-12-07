@@ -4,7 +4,8 @@ import 'package:shopv1deliveryfood_mobile/features/home/domain/entities/category
 class ProductEntity extends Equatable {
   final int id;
   final CategoryEntity category;
-  final int countInCart;
+  int countInCart;
+  int countInFavorite;
   final String title;
   final String description;
   final String photo;
@@ -13,11 +14,14 @@ class ProductEntity extends Equatable {
   final num discountPercent;
   final DateTime createdAt;
 
+  bool isNew;
+
 
   ProductEntity( {
     required this.id,
     required this.category,
     required this.countInCart,
+    required this.countInFavorite,
     required this.title,
     required this.description,
     required this.photo,
@@ -25,6 +29,7 @@ class ProductEntity extends Equatable {
     required this.maxCountInCart,
     required this.createdAt,
     required this.discountPercent,
+    this.isNew = false
   });
 
   @override
@@ -32,6 +37,7 @@ class ProductEntity extends Equatable {
     id,
     countInCart,
     title,
+    countInFavorite,
     discountPercent,
     category,
     description,

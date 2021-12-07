@@ -10,14 +10,14 @@ class TextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 22.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
 
   static TextStyle cart_empty_text = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
       fontSize: 22.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
 
 
   // BLACK
@@ -26,14 +26,14 @@ class TextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 28.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
   
   static  TextStyle black_26_w500 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
       fontSize: 26.sp,
       fontWeight: FontWeight.w500,
-      color: Colors.black);
+      color: ColorStyles.black);
 
 
   static  TextStyle black_18_w700 = TextStyle(
@@ -41,14 +41,14 @@ class TextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 18.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
   
   static  TextStyle black_18_w400 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
       fontSize: 18.sp,
       fontWeight: FontWeight.w400,
-      color: Colors.black);
+      color: ColorStyles.black);
 
       
   static  TextStyle black_16_w700 = TextStyle(
@@ -56,7 +56,7 @@ class TextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 16.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
   
 
   static  TextStyle black_14_w400 = TextStyle(
@@ -64,14 +64,14 @@ class TextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
-      color: Colors.black);
+      color: ColorStyles.black);
   
   static  TextStyle black_12_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,
       fontSize: 12.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.black);
+      color: ColorStyles.black);
   
 
 
@@ -190,7 +190,6 @@ class TextStyles {
       fontSize: 18.sp,
       fontWeight: FontWeight.w700,
       color: ColorStyles.primary);
-
   static  TextStyle primary_16_w700 = TextStyle(
       fontFamily: 'Roboto',
       fontStyle: FontStyle.normal,

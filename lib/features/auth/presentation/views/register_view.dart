@@ -9,9 +9,11 @@ import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/services/database/auth_params.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/modal_text_button.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/modals/take_photo_modal.dart';
 import 'package:shopv1deliveryfood_mobile/features/address/data/models/city_model.dart';
 import 'package:shopv1deliveryfood_mobile/features/address/presentation/views/choose_city.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:shopv1deliveryfood_mobile/features/profile/presentation/widgets/profile_photo.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/widgets/text_input.dart';
 
 import '../../../../locator.dart';
@@ -53,154 +55,110 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            context.read<AuthBloc>().add(LogoutEvent());
+          },
+        )
       ),
       backgroundColor: ColorStyles.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // SizedBox(height: 10.h,),
-              Container(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // SizedBox(height: 10.h,),
+                Container(
                   width: _width,
                   height: _height*0.26-50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              _showSourceTypeModal(context: context, callback: (source) async {
-                                final getMedia = await ImagePicker()
-                                    .getImage(source: source, maxWidth: 600.0, maxHeight: 600.0);
-                                if (getMedia != null) {
-                                  final file = File(getMedia.path);
+                  child: ProfilePhoto(
+                    fileImage: avatar,
+                    urlImage: null,
+                    onTap: (){
+                      TakePhotoModal(
+                        context: context,
+                        title: 'Где выбрать \nизображение',
+                        callback: (ImageSource source) async{
+                          final getMedia = await ImagePicker().getImage(source: source, maxWidth: 1000.0, maxHeight: 1000.0);
+                          if (getMedia != null) {
+                            final file = File(getMedia.path);
+                            setState(() {
+                              avatar = file;
+                            });
+                          }
+                          Navigator.pop(context);
+                        }
+                      ).showMyDialog();
+                    },
+                  )
+                ),
 
-                                  setState(() {
-                                    avatar = file;
-                                  });
-                                }
-                              });
-                            },
-                            child: Container(
-                              width: 110.w,
-                              height: 100.h,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black12, blurRadius: 3)
-                                ],
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(width: 2.w, color: ColorStyles.white)
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: avatar == null
-                                ? Image(
-                                  width: 110.w,
-                                  height: 100.h,
-                                  fit: BoxFit.cover,
-                                  image: AssetImage('assets/images/user.png'),
-                                )
-                                : Image(
-                                  width: 110.w,
-                                  height: 100.h,
-                                  fit: BoxFit.cover,
-                                  image: FileImage(avatar!)
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 1.w,
-                            right: 1.w,
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
-                                  border: Border.all(color: ColorStyles.white, width: 1.w),
-                                  color: ColorStyles.primary
-                                ),
-                                width: 24,
-                                height: 24,
-                                child: Icon(
-                                  Icons.add,
-                                  size: 18,
-                                  color: ColorStyles.white,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+
+
+                  SizedBox(height: 15.h,),
+                  TextInput(
+                    hintText: 'Ваше имя *',
+                    isEnable: true,
+                    validator: (val){
+                      return val!.length > 2 ? null : errorMessageFirstName;
+                    },
+                    controller: _firstNameController,
+                    icon: Icons.person_outlined,
+                    onTap: (){
+
+                    },
                   ),
-                ),
+                  SizedBox(height: 12.h,),
+                  TextInput(
+                    hintText: 'Ваше фамилия',
+                    isEnable: true,
+                    controller: _lastNameController,
+                    icon: Icons.person_outlined,
+                    validator: (val){
+                      return val!.length > 2 ? null : errorMessageLastName;
+                    },
+                    onTap: (){
 
+                    },
+                  ),
+                  SizedBox(height: 12.h,),
+                  TextInput(
+                    hintText: 'Ваш город *',
+                    isEnable: false,
+                    validator: (val){
+                      print('VALLLLL: ${val}');
+                      return cityModel != null ? null : errorMessageCity;
+                    },
+                    
+                    controller: _cityController,
+                    icon: Icons.location_on_outlined,
+                    onTap: () async {
+                      final city = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseCityView()));
+                      if(city != null){
+                        setState(() {
+                          _cityController.text = city.name;
+                          cityModel = city;
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(height: 12.h,),
+                  TextInput(
+                    hintText: 'Номер *',
+                    isEnable: false,
+                    controller: _phoneController,
+                    icon: Icons.local_phone_outlined,
+                    onTap: (){
 
-
-                SizedBox(height: 15.h,),
-                TextInput(
-                  hintText: 'Ваше имя *',
-                  isEnable: true,
-                  validator: (val){
-                    return val!.length > 2 ? null : errorMessageFirstName;
-                  },
-                  controller: _firstNameController,
-                  icon: Icons.person_outlined,
-                  onTap: (){
-
-                  },
-                ),
-                SizedBox(height: 12.h,),
-                TextInput(
-                  hintText: 'Ваше фамилия',
-                  isEnable: true,
-                  controller: _lastNameController,
-                  icon: Icons.person_outlined,
-                  validator: (val){
-                    return val!.length > 2 ? null : errorMessageLastName;
-                  },
-                  onTap: (){
-
-                  },
-                ),
-                SizedBox(height: 12.h,),
-                TextInput(
-                  hintText: 'Ваш город *',
-                  isEnable: false,
-                  validator: (val){
-                    print('VALLLLL: ${val}');
-                    return cityModel != null ? null : errorMessageCity;
-                  },
-                  
-                  controller: _cityController,
-                  icon: Icons.location_on_outlined,
-                  onTap: () async {
-                    final city = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseCityView()));
-                    if(city != null){
-                      setState(() {
-                        _cityController.text = city.name;
-                        cityModel = city;
-                      });
-                    }
-                  },
-                ),
-                SizedBox(height: 12.h,),
-                TextInput(
-                  hintText: 'Номер *',
-                  isEnable: false,
-                  controller: _phoneController,
-                  icon: Icons.local_phone_outlined,
-                  onTap: (){
-
-                  },
-                ),
-                      
-            ],
+                    },
+                  ),
+                        
+              ],
+            ),
           ),
         ),
       ),

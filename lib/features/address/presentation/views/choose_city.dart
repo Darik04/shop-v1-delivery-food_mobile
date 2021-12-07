@@ -25,7 +25,13 @@ class _ChooseCityViewState extends State<ChooseCityView> {
     var _width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Выборка города', style: Theme.of(context).appBarTheme.titleTextStyle,)
+        title: Text('Выборка города', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
       ),
       body: BlocConsumer<CityBloc, CityState>(
         listener: (context, state){

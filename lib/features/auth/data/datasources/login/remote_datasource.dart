@@ -41,10 +41,12 @@ class AuthenticationRemoteDataSourceImpl
             // validateStatus: (status) => status! < 500,
             headers: headers));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! >= 200 && response.statusCode! <= 299) {
       return response.data['code'].toString();
+    } else if(response.statusCode == 400) {
+      throw ServerException(message: response.data['detail']);
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -58,12 +60,14 @@ class AuthenticationRemoteDataSourceImpl
         data: formData,
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
-    if (response.statusCode == 200) {
+    if (response.statusCode! >= 200 && response.statusCode! <= 299) {
       return TokenModel.fromJson(response.data);
+    } else if(response.statusCode == 400) {
+      throw ServerException(message: response.data['detail']);
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -87,12 +91,14 @@ class AuthenticationRemoteDataSourceImpl
         data: formData,
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode! >= 200 && response.statusCode! < 400) {
       return true;
+    } else if(response.statusCode == 400) {
+      throw ServerException(message: response.data['detail']);
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -112,8 +118,11 @@ class AuthenticationRemoteDataSourceImpl
       return UserModel.fromJson(response.data);
     } else if(response.statusCode == 401) {
       return UserModel(firstName: 'unauthorized', apartment: '', avatar: '', city: null, createdAt: DateTime.now(), entrance: '', homeNumber: '', id: 1, lastLogin: null, lastName: '', lat: null, long: null, phone: '', street: '', registered: true);
-    } else {
-      throw ServerException();
+    } else if(response.statusCode == 400) {
+      throw ServerException(message: response.data['detail']);
+    }
+    else {
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 

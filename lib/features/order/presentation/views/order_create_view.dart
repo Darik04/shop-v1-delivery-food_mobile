@@ -19,6 +19,12 @@ class OrderCreateView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Оформление заказа', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
       ),
       backgroundColor: ColorStyles.white,
       body: SingleChildScrollView(
@@ -252,7 +258,7 @@ class OrderCreateView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ShadowPrimaryBtn(
-            text: 'Оформить заказ на: 8000 тг.',
+            text: 'Оформить заказ на: 8000 ₸',
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OrderEnterCodeView()));
             },

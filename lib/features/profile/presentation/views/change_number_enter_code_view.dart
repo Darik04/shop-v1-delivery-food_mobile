@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +7,11 @@ import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/modals/dialog_loading_modal.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/modals/success_reusable_modal.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/bloc/change_number/change_number_bloc.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:timer_button/timer_button.dart';
 
 class ChangeNumberEnterCodeView extends StatefulWidget {
   final String phone;
@@ -22,41 +22,10 @@ class ChangeNumberEnterCodeView extends StatefulWidget {
 }
 
 class _ChangeNumberEnterCodeViewState extends State<ChangeNumberEnterCodeView> {
-  TextEditingController codeController = TextEditingController();
+  final TextEditingController codeController = new TextEditingController();
 
-  //Timer for resend
-  Timer? _timer;
-  int _start = 0;
-
-  void startTimer() {
-    _start = 3;
-    _timer = Timer.periodic(
-      Duration(seconds: 1),
-      (Timer timer) => setState(() {
-        if (_start == 0) {
-          timer.cancel();
-        } else {
-          _start--;
-        }
-      })
-    );
-  } 
   
-  
-  @override
-  void dispose() {
-    if(_timer != null && _timer!.isActive){
-      _timer!.cancel();
-    }
-    super.dispose();
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    startTimer();
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +38,19 @@ class _ChangeNumberEnterCodeViewState extends State<ChangeNumberEnterCodeView> {
         listener: (context, state){
           if(state is SMSCheckedSuccessState){
             Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
+            SuccessReusableModal(
+              context: context,
+              btnTitle: 'Хорошо',
+              title: 'Успех',
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              subTitle: 'Ваш номер успешно изменен на новый!'
+            ).showMyDialog(); 
+            
             context.read<AuthBloc>().add(CheckUserLoggedEvent());
           }
           if(state is ChangeNumberErrorState){
@@ -106,35 +85,47 @@ class _ChangeNumberEnterCodeViewState extends State<ChangeNumberEnterCodeView> {
                         ),
                         currentCode: '',
                         onCodeSubmitted: (code) {},
+                        onCodeChanged: (code) {
+                        },
                         codeLength: 6,
                       ),
                     ),
                     SizedBox(height: 30.h),
-
-                    _start == 0
-                    ? Text.rich(
+                    TimerButton(
+                      label: "Заново отправить код",
+                      timeOutInSeconds: 30,
+                      onPressed: () {
+                        context.read<ChangeNumberBloc>().add(SendSMSForChangePhoneEvent(newPhone: widget.phone, isResend: true));
+                      },
+                      buttonType: ButtonType.TextButton,
+                      disabledColor: Color.fromRGBO(0, 0, 0, 0),
+                      color: Color.fromRGBO(0, 0, 0, 0),
+                      disabledTextStyle: TextStyles.primary_14_w400,
+                      activeTextStyle: TextStyles.primary_14_w400.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    // true
+                    // ? Text.rich(
                     
-                    TextSpan(
+                    // TextSpan(
                         
-                        text: 'Отправить код заново ',
+                    //     text: 'Отправить код заново ',
                         
-                        style: TextStyles.primary_14_w400,
+                    //     style: TextStyles.primary_14_w400,
                         
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: 'отправить',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                startTimer();
-                                context.read<ChangeNumberBloc>().add(SendSMSForChangePhoneEvent(newPhone: widget.phone, isResend: true));
-                              },
-                          )
-                        ]
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                    : Text('Получить код повторно через $_start сек', style: TextStyles.primary_14_w400, textAlign: TextAlign.center),
+                    //     children: <InlineSpan>[
+                    //       TextSpan(
+                    //         text: 'отправить',
+                    //         style: TextStyle(fontWeight: FontWeight.bold),
+                    //         recognizer: new TapGestureRecognizer()
+                    //           ..onTap = () {
+                    //             context.read<ChangeNumberBloc>().add(SendSMSForChangePhoneEvent(newPhone: widget.phone, isResend: true));
+                    //           },
+                    //       )
+                    //     ]
+                    //   ),
+                    //   textAlign: TextAlign.center,
+                    // )
+                    // : Text('Получить код повторно через 0 сек', style: TextStyles.primary_14_w400, textAlign: TextAlign.center),
 
                   ],
                 ),

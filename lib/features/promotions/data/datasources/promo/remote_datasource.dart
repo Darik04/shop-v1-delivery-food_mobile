@@ -39,7 +39,7 @@ class PromotionsRemoteDataSourceImpl
     Response response = await dio.get(Endpoints.getPromotions.getPath(params: [page]),
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       List<PromotionModel> promos = (response.data['results'] as List)
@@ -48,7 +48,7 @@ class PromotionsRemoteDataSourceImpl
 
       return promos;
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 

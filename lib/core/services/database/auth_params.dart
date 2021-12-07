@@ -28,6 +28,6 @@ class AuthConfig {
     this.token, 
     this.userEntity, 
     this.phone,
-    this.authenticatedOption
+    this.authenticatedOption = AuthenticatedOption.unauthenticated
   });
 }

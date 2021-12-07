@@ -11,16 +11,19 @@ class ProductToCartMiniBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 130.w,
-      height: 40.h,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: ColorStyles.primary,
-        borderRadius: BorderRadius.circular(30),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 130.w,
+        height: 40.h,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: ColorStyles.primary,
+          borderRadius: BorderRadius.circular(30),
 
+        ),
+        child: Text(text, style: TextStyles.white_16_w700),
       ),
-      child: Text('В корзину', style: TextStyles.white_16_w700),
     );
   }
 }

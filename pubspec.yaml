@@ -54,6 +54,11 @@ dependencies:
   flutter_map: ^0.14.0
   latlong2: ^0.8.1
   
+  timer_button: ^2.0.0
+  # scrollable_positioned_list: ^0.2.3
+  # scrollable_list_tabview: ^0.2.0-nullsafety
+  # scroll_to_index: ^2.1.0
+  # rect_getter: ^1.1.0
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/src/provider.dart';
 import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
@@ -11,6 +12,7 @@ import 'package:shopv1deliveryfood_mobile/core/utils/helpers/address_helper.dart
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/modals/dialog_loading_modal.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/modals/take_photo_modal.dart';
 import 'package:shopv1deliveryfood_mobile/features/address/domain/entities/address_entity.dart';
 import 'package:shopv1deliveryfood_mobile/features/address/domain/entities/city_entity.dart';
 import 'package:shopv1deliveryfood_mobile/features/address/presentation/views/address_delivery.dart';
@@ -18,6 +20,7 @@ import 'package:shopv1deliveryfood_mobile/features/auth/domain/entities/user_ent
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/views/change_number_enter_code_view.dart';
+import 'package:shopv1deliveryfood_mobile/features/profile/presentation/widgets/profile_photo.dart';
 import 'package:shopv1deliveryfood_mobile/features/profile/presentation/widgets/text_input.dart';
 
 import '../../../../locator.dart';
@@ -60,6 +63,12 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Профиль', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           GestureDetector(
             onTap: (){
@@ -96,56 +105,26 @@ class _ProfileViewState extends State<ProfileView> {
                 Container(
                   width: _width,
                   height: _height*0.26-50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: 110.h,
-                            height: 100.h,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 3)
-                              ],
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 2.w, color: ColorStyles.white)
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image(
-                                width: 110.h,
-                                height: 100.h,
-                                fit: BoxFit.cover,
-                                image: AssetImage('assets/images/user.png'),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 1.w,
-                            right: 1.w,
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
-                                  border: Border.all(color: ColorStyles.white, width: 1.w),
-                                  color: ColorStyles.primary
-                                ),
-                                width: 24,
-                                height: 24,
-                                child: Icon(
-                                  Icons.add,
-                                  size: 18,
-                                  color: ColorStyles.white,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                  child: ProfilePhoto(
+                    onTap: (){
+                      TakePhotoModal(
+                        context: context,
+                        title: 'Где выбрать \nизображение',
+                        callback: (ImageSource source) async{
+                          final getMedia = await ImagePicker().getImage(source: source, maxWidth: 1000.0, maxHeight: 1000.0);
+                          if (getMedia != null) {
+                            final file = File(getMedia.path);
+                            setState(() {
+                              avatar = file;
+                            });
+                          }
+                          Navigator.pop(context);
+                        }
+                      ).showMyDialog();
+                    },
+                    fileImage: avatar,
+                    urlImage: _userEntity!.avatar,
+                  )
                 ),
                 Container(
                   width: _width,

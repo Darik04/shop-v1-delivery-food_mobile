@@ -9,6 +9,7 @@ import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/helpers/phone_number_helper.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
+import 'package:shopv1deliveryfood_mobile/core/widgets/modals/dialog_loading_modal.dart';
 import 'package:shopv1deliveryfood_mobile/features/additions/presentation/views/loading_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/domain/usecases/get_user_info.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
@@ -51,23 +52,29 @@ class _SplashViewState extends State<SplashView> {
 
         if(state is ErrorState){
           showAlertToast(state.message);
+          context.read<AuthBloc>().add(CheckUserLoggedEvent());
         }
 
         if(state is OpenAuthFormState){
           _showSourceTypeModal(context: context);
         }
+
+        if(state is InternetConnectionFailed){
+          showAlertToast('Проверьте ваше интернет соединение..');
+          context.read<AuthBloc>().add(CheckUserLoggedEvent());
+        }
+
+        if(state is LoginCodeSendedSuccessState){
+          Navigator.pop(context);
+        }
       },
       
       builder: (context, state) {
-        if(state is InternetConnectionFailed){
-          return Center(
-            child: Text('Проверьте ваше интернет соединение..'),
-          );
-        }
+        
         if(state is LoginCodeSendedSuccessState){
           return EnterCodeView(phone: state.phone!,);
         }
-        if(state is CheckedState || state is OpenAuthFormState || state is BlankState){
+        if(state is CheckedState || state is OpenAuthFormState || state is BlankState || state is ErrorState){
           return MainView();
         }
         if(state is RequiredRegisterState){
@@ -132,6 +139,8 @@ class _SplashViewState extends State<SplashView> {
                     print('Formatted phone is: $phone');
                     context.read<AuthBloc>().add(SendSMSEvent(phone: phone));
                     Navigator.pop(context);
+
+                    Dialogs.showLoadingDialog(context);
                   }
                 }
               )

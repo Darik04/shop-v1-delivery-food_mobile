@@ -12,6 +12,8 @@ import 'package:shopv1deliveryfood_mobile/features/product_details/presentation/
 import 'package:shopv1deliveryfood_mobile/features/product_details/presentation/widgets/head_product_carousel.dart';
 
 class ProductDetailsView extends StatefulWidget {
+  final int productId;
+  ProductDetailsView({required this.productId});
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
@@ -24,6 +26,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Бургер', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -66,7 +74,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     children: [
                       Text('Цена:', style: TextStyles.black_16_w700,),
                       SizedBox(width: 10.w,),
-                      Text('2500 тг.', style: TextStyles.green_18_w700,),
+                      Text('2500 ₸', style: TextStyles.green_18_w700,),
 
                     ],
                   ),

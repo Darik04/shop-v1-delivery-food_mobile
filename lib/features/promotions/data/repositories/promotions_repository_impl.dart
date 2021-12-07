@@ -2,7 +2,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:shopv1deliveryfood_mobile/core/error/failures.dart';
 import 'package:shopv1deliveryfood_mobile/core/services/network/network_info.dart';
-import 'package:shopv1deliveryfood_mobile/features/promotions/data/datasources/login/remote_datasource.dart';
+import 'package:shopv1deliveryfood_mobile/features/promotions/data/datasources/promo/remote_datasource.dart';
 import 'package:shopv1deliveryfood_mobile/features/promotions/domain/entities/promotion_entity.dart';
 import 'package:shopv1deliveryfood_mobile/features/promotions/domain/repositories/login/promotions_repository.dart';
 import 'package:shopv1deliveryfood_mobile/features/promotions/domain/usecases/get_promotions.dart';

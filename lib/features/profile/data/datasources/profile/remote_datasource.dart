@@ -42,12 +42,12 @@ class ProfileRemoteDataSourceImpl
         data: formData,
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -63,7 +63,7 @@ class ProfileRemoteDataSourceImpl
         data: formData,
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       return true;
@@ -72,7 +72,7 @@ class ProfileRemoteDataSourceImpl
 
     }
     else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -90,7 +90,7 @@ class ProfileRemoteDataSourceImpl
         data: formData,
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       return true;
@@ -99,7 +99,7 @@ class ProfileRemoteDataSourceImpl
 
     }
     else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 

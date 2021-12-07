@@ -28,6 +28,7 @@ class AuthenticationLocalDataSourceImpl
     print("GETTING TOKEN");
     if (await _storage.containsKey(key: ConstantsForData.ACCESS_TOKEN)) {
       var token = await _storage.read(key: ConstantsForData.ACCESS_TOKEN);
+      print("TOKEN: ${token}");
 
       return token;
     } else {

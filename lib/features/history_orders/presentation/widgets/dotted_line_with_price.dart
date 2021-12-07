@@ -21,7 +21,7 @@ class DottedLineWithPriceCustom extends StatelessWidget {
             Text(title, style: TextStyles.black_14_w400,),
             Row(
               children: [
-                Text('$price тг.', style: TextStyles.green_14_w700),
+                Text('$price ₸', style: TextStyles.green_14_w700),
                 count > 1 
                 ? Column(
                   children: [

@@ -35,7 +35,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       var token = await getTokenLocal(NoParams());
       yield token.fold(
         (failure){
-          return ErrorState(message: 'Повторите попытку');
+          if(failure == ConnectionFailure())
+            return InternetConnectionFailed();
+          else if(failure is ServerFailure)
+            return ErrorState(message: failure.message);
+          else
+            return ErrorState(message: 'Повторите попытку');
         },
         (token){
           if(token != null){
@@ -57,11 +62,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield sendedSMSOrFail.fold(
         (failure){
           print('FAIL: ${failure}');
-          if(failure == ConnectionFailure()){
+          if(failure == ConnectionFailure())
             return InternetConnectionFailed();
-          }else{
+          else if(failure is ServerFailure)
+            return ErrorState(message: failure.message);
+          else
             return ErrorState(message: 'Повторите попытку');
-          }
+          
         },
         (isSuccess){
           print('SUCCESS: ${isSuccess}');
@@ -78,7 +85,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (failure) {
           if(failure is ConnectionFailure)
             return InternetConnectionFailed();
-          else
+          else if(failure is ServerFailure)
+            return ErrorState(message: failure.message);
+          else 
             return ErrorState(message: 'Не смогли зайти');
         },
         (TokenEntity tokenEntity) {
@@ -102,10 +111,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield gotUserInfo.fold(
         (failure) {
           print('FAILURE: ${failure}');
-          if(failure is ConnectionFailure)
+          if(failure == ConnectionFailure())
             return InternetConnectionFailed();
+          else if(failure is ServerFailure)
+            return ErrorState(message: failure.message);
           else
-            return ErrorState(message: 'Не смогли получить пользователя');
+            return ErrorState(message: 'Повторите попытку');
         },
         (userEntity) {
           if(userEntity.firstName == 'unauthorized' && userEntity.city == null){
@@ -149,8 +160,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       yield registerResult.fold(
         (failure) {
-          if(failure is ConnectionFailure)
+          if(failure == ConnectionFailure())
             return InternetConnectionFailed();
+          else if(failure is ServerFailure)
+            return ErrorState(message: failure.message);
           else
             return ErrorState(message: 'Не смогли зарегестрировать');
         },
@@ -184,14 +197,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             return ErrorState(message: 'Не смогли выйти');
         },
         (bool isExited) {
-          if(isExited){
-            sl<AuthConfig>().phone = null;
-            sl<AuthConfig>().userEntity = null;
-            sl<AuthConfig>().authenticatedOption = AuthenticatedOption.unauthenticated;
-            return RequiredCheckState();
-          }else{
-            return ErrorState(message: 'Не смогли выйти');
-          }
+          
+          sl<AuthConfig>().phone = null;
+          sl<AuthConfig>().userEntity = null;
+          sl<AuthConfig>().token = null;
+          sl<AuthConfig>().authenticatedOption = AuthenticatedOption.unauthenticated;
+          return RequiredCheckState();
+          
         }
         
       );

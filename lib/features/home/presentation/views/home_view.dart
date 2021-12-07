@@ -5,16 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shopv1deliveryfood_mobile/constants/colors/color_styles.dart';
 import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
+import 'package:shopv1deliveryfood_mobile/core/services/database/auth_params.dart';
+import 'package:shopv1deliveryfood_mobile/core/utils/helpers/cart_helper.dart';
 import 'package:shopv1deliveryfood_mobile/core/utils/toasts.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/btns/primary_btn.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/cards/category_card.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/cards/product_card.dart';
 import 'package:shopv1deliveryfood_mobile/core/widgets/loaders/loader_v1.dart';
 import 'package:shopv1deliveryfood_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:shopv1deliveryfood_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
+import 'package:shopv1deliveryfood_mobile/features/favorites/presentation/bloc/favorite/favorite_bloc.dart';
+import 'package:shopv1deliveryfood_mobile/features/home/domain/entities/product_entity.dart';
 import 'package:shopv1deliveryfood_mobile/features/home/presentation/bloc/home/home_bloc.dart';
 import 'package:shopv1deliveryfood_mobile/features/home/presentation/widgets/head_carousel.dart';
+import 'package:shopv1deliveryfood_mobile/features/list_products/presentation/views/list_products_view.dart';
 import 'package:shopv1deliveryfood_mobile/features/product_details/presentation/views/product_details_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shopv1deliveryfood_mobile/locator.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -33,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final HomeBloc homeBloc = context.read<HomeBloc>();
     return Scaffold(
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state){
@@ -53,9 +61,10 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       SizedBox(height: 15.h,),
                       HeadCarousel(urls: [
-                        'https://elements-cover-images-0.imgix.net/b7baf8c8-ba17-4e35-9865-0fdeb552e7cf?auto=compress&crop=edges&fit=crop&fm=jpeg&h=630&w=1200&s=beffa2284fb0f3a624c1949831af34d7', 
-                        'https://graphicsfamily.com/wp-content/uploads/edd/2020/11/Tasty-Food-Web-Banner-Design-scaled.jpg', 
-                        'https://cdn.dribbble.com/users/5874456/screenshots/14313617/media/aad1c88ba7c6efb9d87b857a73d4c15c.jpg?compress=1&resize=400x300'
+                        // 'https://elements-cover-images-0.imgix.net/b7baf8c8-ba17-4e35-9865-0fdeb552e7cf?auto=compress&crop=edges&fit=crop&fm=jpeg&h=630&w=1200&s=beffa2284fb0f3a624c1949831af34d7', 
+                        // 'https://graphicsfamily.com/wp-content/uploads/edd/2020/11/Tasty-Food-Web-Banner-Design-scaled.jpg', 
+                        // 'https://cdn.dribbble.com/users/5874456/screenshots/14313617/media/aad1c88ba7c6efb9d87b857a73d4c15c.jpg?compress=1&resize=400x300'
+                        '','',''
                       ],),
                       SizedBox(height: 15.h,),
                       Text(
@@ -66,13 +75,14 @@ class _HomeViewState extends State<HomeView> {
                       Container(
                         height: 130.h,
                         child: ListView.builder(
-                          itemCount: state.categories.length,
+                          itemCount: homeBloc.categories.length,
                           itemBuilder: (BuildContext context, int i){
                             return CategoryCard(
-                              text: state.categories[i].title,
-                              url: state.categories[i].icon,
-                              func: (){
-
+                              text: homeBloc.categories[i].title,
+                              url: homeBloc.categories[i].icon,
+                              func: () async {
+                                await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ListProductsView(categoryId: homeBloc.categories[i].id, categoryName: homeBloc.categories[i].title,)));
+                                setState(() {});
                               },
                             );
                           },
@@ -90,17 +100,38 @@ class _HomeViewState extends State<HomeView> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: state.products.length,
+                        itemCount: homeBloc.products.length,
                         itemBuilder: (BuildContext context, int i){
                           return ProductCard(
-                            url: state.products[i].photo,
-                            title: state.products[i].title,
-                            description: state.products[i].description,
-                            firstArgument: '25 мм',
-                            secondArgument: '56 г',
-                            price: state.products[i].price,
+                            productEntity: homeBloc.products[i],
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView()));
+                              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProductDetailsView(productId: homeBloc.products[i].id)));
+                            },
+                            addToCartTap: (){
+                              setState(() {
+                                addToCart(context: context, productEntity: homeBloc.products[i]);
+                              });
+                            },
+                            
+                            addToFavoritesTap: (){
+                              if(sl<AuthConfig>().authenticatedOption == AuthenticatedOption.authenticated){
+                                setState(() {
+                                  if(homeBloc.products[i].countInFavorite == 0){
+                                    homeBloc.products[i].countInFavorite = 1;
+                                    context.read<FavoriteBloc>().add(AddToFavoriteEvent(product: homeBloc.products[i]));
+                                  }else{
+                                    homeBloc.products[i].countInFavorite = 0;
+                                    context.read<FavoriteBloc>().add(DeleteFromFavoriteEvent(productId: homeBloc.products[i].id));
+                                  }
+                                });
+                              }else{
+                                context.read<AuthBloc>().add(OpenAuthFormEvent());
+                              }
+                            },
+                            removeFromCartTap: (){
+                              setState(() {
+                                deleteFromCart(context: context, productEntity: homeBloc.products[i]);
+                              });
                             },
                           );
                         },
@@ -110,7 +141,17 @@ class _HomeViewState extends State<HomeView> {
 
                       SizedBox(height: 10.h,),
 
-                      Center(child: Text('Больше', style: TextStyles.green_18_w700),),
+                      Center(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () async {
+                            await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ListProductsView()));
+                            setState(() {});
+                            
+                          },
+                          child: Text('Больше', style: TextStyles.green_18_w700)
+                        ),
+                      ),
                       SizedBox(height: 25.h,),
 
                     ],
@@ -133,4 +174,5 @@ class _HomeViewState extends State<HomeView> {
 
 
 }
+
 

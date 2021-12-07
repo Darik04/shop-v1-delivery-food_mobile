@@ -34,11 +34,15 @@ class HomeRemoteDataSourceImpl
   //Get products for home view with pagination system
   @override
   Future<List<ProductEntity>> getHomeProducts(int page) async {
-
+    
+    if(sl<AuthConfig>().token != null){
+      headers.addAll({"Authorization": "Token ${sl<AuthConfig>().token}"});
+    }
+    
     Response response = await dio.get(Endpoints.getHomeProducts.getPath(params: [page]),
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       // print('RESPONSE: ${response.data}');
@@ -49,7 +53,7 @@ class HomeRemoteDataSourceImpl
 
       return products;
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 
@@ -62,7 +66,7 @@ class HomeRemoteDataSourceImpl
     Response response = await dio.get(Endpoints.getCategories.getPath(),
         options: Options(
             followRedirects: false,
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
 
     if (response.statusCode == 200) {
@@ -71,7 +75,7 @@ class HomeRemoteDataSourceImpl
             .toList();
       return categories;
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 

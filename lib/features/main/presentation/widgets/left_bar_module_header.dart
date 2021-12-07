@@ -5,23 +5,27 @@ import 'package:shopv1deliveryfood_mobile/constants/texts/text_styles.dart';
 
 class LeftBarModuleHeader extends StatelessWidget {
   final String text;
-  const LeftBarModuleHeader({Key? key, required this.text}) : super(key: key);
+  final Animation<Offset> animation;
+  const LeftBarModuleHeader({Key? key, required this.text, required this.animation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 18.w,
-          height: 2.h,
-          decoration: BoxDecoration(
-            color: ColorStyles.main_grey,
+    return SlideTransition(
+      position: animation,
+      child: Row(
+        children: [
+          Container(
+            width: 18.w,
+            height: 2.h,
+            decoration: BoxDecoration(
+              color: ColorStyles.main_grey,
+            ),
           ),
-        ),
-        SizedBox(width: 10.w,),
-        Text(text, style: TextStyles.white_18_w700,),
-        
-      ],
+          SizedBox(width: 10.w,),
+          Text(text, style: TextStyles.white_18_w700,),
+          
+        ],
+      ),
     );
   }
 }

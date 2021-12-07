@@ -32,14 +32,14 @@ class CityRemoteDataSourceImpl
 
     Response response = await dio.get(Endpoints.getCities.getPath(),
         options: Options(
-            validateStatus: (status) => status! < 401,
+            validateStatus: (status) => status! < 499,
             headers: headers));
     if (response.statusCode == 200) {
       return (response.data['results'] as List)
               .map((i) => CityModel.fromJson(i))
               .toList();
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Ошибка с сервером');
     }
   }
 

@@ -45,7 +45,7 @@ class OrderHistoryCard extends StatelessWidget {
 
           Text('Общая цена:', style: TextStyles.grey_14_w400,),
           SizedBox(height: 2.h,),
-          Text('5000 тг.', style: TextStyles.green_14_w700),
+          Text('5000 ₸', style: TextStyles.green_14_w700),
           SizedBox(height: 10.h,),
 
           Row(

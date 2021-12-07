@@ -12,7 +12,13 @@ class HistoryOrdersView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('История заказов', style: Theme.of(context).appBarTheme.titleTextStyle,)
+        title: Text('История заказов', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
       ),
       body: SingleChildScrollView(
         child: Padding(

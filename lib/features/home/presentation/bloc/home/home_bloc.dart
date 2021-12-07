@@ -16,14 +16,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   
   HomeBloc(this.getHomeProductsWithPagination, this.getCategories) : super(HomeInitialState());
 
+  List<CategoryEntity> categories = [];
+  List<ProductEntity> products = [];
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async*{
     if(event is GetHomeProductsWithPaginationEvent){
       yield HomeLoadingState();
-      var products = await getHomeProductsWithPagination(GetHomeProductsWithPaginationParams(page: 1));
-      var categories = await getCategories(NoParams());
+      var productsGot = await getHomeProductsWithPagination(GetHomeProductsWithPaginationParams(page: 1));
+      var categoriesGot = await getCategories(NoParams());
       //Folding products
-      yield products.fold(
+      yield productsGot.fold(
         (failure){
           print('ERROR: ${failure}');
           if(failure is ConnectionFailure){
@@ -31,22 +33,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           }
           return HomeErrorState(message: 'Не смогли загрузить продукты');
         },
-        (products){
+        (productsS){
+          products = productsS;
           //Folding categories
-          List<CategoryEntity> cats = [];
-          categories.fold(
+          categoriesGot.fold(
             (failure){
               if(failure is ConnectionFailure){
                 return InternetConnectionFailureState();
               }
               return HomeErrorState(message: 'Не смогли загрузить категории');
             },
-            (categories){
-              cats = categories;
+            (categoriesS){
+              categories = categoriesS;
             }
           );
 
-          return GotSuccessHomeProductsAndCategoriesState(categories: cats, products: products);
+          return GotSuccessHomeProductsAndCategoriesState(categories: categories, products: products);
 
         }
       );

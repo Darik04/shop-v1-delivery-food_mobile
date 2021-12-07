@@ -13,6 +13,7 @@ extension MapTypesExtension on MapTypes {
         return "http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg";
 
       case MapTypes.standard:
+        // return "https://api.maptiler.com/maps/bright/256/{z}/{x}/{y}.png?key=6KH4B0q0zo9Zri8cJddn";
         return "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png";
     }
   }

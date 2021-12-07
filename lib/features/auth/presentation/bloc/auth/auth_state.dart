@@ -14,18 +14,9 @@ class LoginCodeSendedSuccessState extends AuthState{
   final String? code;
   LoginCodeSendedSuccessState({this.phone, this.code});
 }
-class LoginCodeErrorState extends AuthState{
-  final String message;
-  LoginCodeErrorState({required this.message});
-}
 
 
 class LoginWithPhoneSuccessState extends AuthState{}
-class LoginWithPhoneErrorState extends AuthState{
-  final String message;
-  LoginWithPhoneErrorState({required this.message});
-}
-
 
 class RequiredRegisterState extends AuthState{}
 class RequiredCheckState extends AuthState{}

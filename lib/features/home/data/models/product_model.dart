@@ -6,6 +6,7 @@ class ProductModel extends ProductEntity{
   ProductModel({
     required int id,
     required int countInCart,
+    required int countInFavorite,
     required int price,
     required int maxCountInCart,
     required num discountPercent,
@@ -26,22 +27,26 @@ class ProductModel extends ProductEntity{
     photo: photo,
     discountPercent: discountPercent,
     createdAt: createdAt,
-    countInCart: countInCart
+    countInCart: countInCart,
+    countInFavorite: countInFavorite
     
   );
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-    id: json['id'],
-    category: CategoryModel.fromJson(json['category']),
-    createdAt: DateTime.parse(json['created_at']),
-    maxCountInCart: json['max_count_in_cart'],
-    price: json['price'],
-    discountPercent: json['discount_percent'],
-    photo: json['main_photo'],
-    description: json['description'],
-    title: json['title'],
-    countInCart: json['product_in_cart']['count'],
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      category: CategoryModel.fromJson(json['category']),
+      createdAt: DateTime.parse(json['created_at']),
+      maxCountInCart: json['max_count_in_cart'],
+      price: json['price'],
+      discountPercent: json['discount_percent'],
+      photo: json['main_photo'],
+      description: json['description'],
+      title: json['title'],
+      countInCart: json['product_in_cart']['count'],
+      countInFavorite: json['product_in_favorite']['count'],
 
 
-  );
+    );
+  }
 }

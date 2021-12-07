@@ -60,7 +60,13 @@ class _DeliveryAddressViewState extends State<DeliveryAddressView> {
     var _width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Адрес доставки', style: Theme.of(context).appBarTheme.titleTextStyle,)
+        title: Text('Адрес доставки', style: Theme.of(context).appBarTheme.titleTextStyle,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
       ),
       body: Column(
         children: [
@@ -69,13 +75,15 @@ class _DeliveryAddressViewState extends State<DeliveryAddressView> {
             height: 230.h,
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(51.5, -0.09),
-                zoom: 13.0,
+                center: LatLng(49.82, 72.88),
+                zoom: 10,
+                maxZoom: 18.4
               ),
               layers: [
                 TileLayerOptions(
                   urlTemplate: MapTypes.standard.url,
-                  subdomains: ['a', 'b', 'c']
+                  subdomains: ['a', 'b', 'c'],
+
                 ),
                 MarkerLayerOptions(
                   markers: [

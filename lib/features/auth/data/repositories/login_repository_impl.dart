@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dartz/dartz.dart';
+import 'package:shopv1deliveryfood_mobile/core/error/exceptions.dart';
 import 'package:shopv1deliveryfood_mobile/core/error/failures.dart';
 import 'package:shopv1deliveryfood_mobile/core/services/database/auth_params.dart';
 import 'package:shopv1deliveryfood_mobile/core/services/network/network_info.dart';
@@ -34,6 +35,9 @@ class LoginRepositoryImpl implements LoginRepository {
         final isSended = await remoteDataSource.sendSMS(params.phoneNumber);
         return Right(isSended);
       } catch (e) {
+        if(e is ServerException){
+          return Left(ServerFailure(e.message!));
+        }
         return Left(ServerFailure(e.toString()));
       }
     } else {
@@ -59,6 +63,9 @@ class LoginRepositoryImpl implements LoginRepository {
         // return Right(tokenEntity);
 
       } catch (e) {
+        if(e is ServerException){
+          return Left(ServerFailure(e.message!));
+        }
         return Left(ServerFailure(e.toString()));
       }
     } else {
@@ -76,6 +83,9 @@ class LoginRepositoryImpl implements LoginRepository {
         return Right(userModel);
       } catch (e) {
         print(e);
+        if(e is ServerException){
+          return Left(ServerFailure(e.message!));
+        }
         return Left(ServerFailure(e.toString()));
       }
     } else {
@@ -130,6 +140,9 @@ class LoginRepositoryImpl implements LoginRepository {
         return Right(isSended);
       } catch (e) {
         print(e);
+        if(e is ServerException){
+          return Left(ServerFailure(e.message!));
+        }
         return Left(ServerFailure(e.toString()));
       }
     } else {

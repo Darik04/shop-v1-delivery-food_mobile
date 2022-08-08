@@ -1,4 +1,6 @@
-# shopv1deliveryfood_mobile
+# Food Delivery Project / Clean Architecture used
+
+(flutter_bloc, get_it and etc.)
 
 A new Flutter project.
 
